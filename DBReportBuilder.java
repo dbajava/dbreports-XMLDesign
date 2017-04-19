@@ -73,14 +73,14 @@ public class DBReportBuilder {
 		frame.setBounds(100, 100, 614, 520);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
-		JPanel panel = new JPanel();
-		frame.getContentPane().add(panel, BorderLayout.NORTH);
-		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{150, 150, 212, 0};
-		gbl_panel.rowHeights = new int[]{36, 0};
-		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{1.0, Double.MIN_VALUE};
-		panel.setLayout(gbl_panel);
+		JPanel pnPrim = new JPanel();
+		frame.getContentPane().add(pnPrim, BorderLayout.NORTH);
+		GridBagLayout gbl_pnPrim = new GridBagLayout();
+		gbl_pnPrim.columnWidths = new int[]{150, 150, 212, 0};
+		gbl_pnPrim.rowHeights = new int[]{36, 0};
+		gbl_pnPrim.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_pnPrim.rowWeights = new double[]{1.0, Double.MIN_VALUE};
+		pnPrim.setLayout(gbl_pnPrim);
 
 		JLabel lbDbname = new JLabel(this.instance.getDbName());
 		lbDbname.setBorder(new TitledBorder(null, "Database", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -91,7 +91,7 @@ public class DBReportBuilder {
 		gbc_lbDbname.insets = new Insets(0, 0, 0, 5);
 		gbc_lbDbname.gridx = 0;
 		gbc_lbDbname.gridy = 0;
-		panel.add(lbDbname, gbc_lbDbname);
+		pnPrim.add(lbDbname, gbc_lbDbname);
 
 		JLabel lbUsername = new JLabel(this.instance.getUserName());
 		lbUsername.setBorder(new TitledBorder(null, "Username", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -101,32 +101,32 @@ public class DBReportBuilder {
 		gbc_lbUsername.insets = new Insets(0, 0, 0, 5);
 		gbc_lbUsername.gridx = 1;
 		gbc_lbUsername.gridy = 0;
-		panel.add(lbUsername, gbc_lbUsername);
+		pnPrim.add(lbUsername, gbc_lbUsername);
 
-		JPanel panel_1 = new JPanel();
-		frame.getContentPane().add(panel_1, BorderLayout.CENTER);
-		GridBagLayout gbl_panel_1 = new GridBagLayout();
-		gbl_panel_1.columnWidths = new int[]{285, 0};
-		gbl_panel_1.rowHeights = new int[]{78, 159, 160, 0};
-		gbl_panel_1.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_panel_1.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
-		panel_1.setLayout(gbl_panel_1);
+		JPanel pnTras = new JPanel();
+		frame.getContentPane().add(pnTras, BorderLayout.CENTER);
+		GridBagLayout gbl_pnTras = new GridBagLayout();
+		gbl_pnTras.columnWidths = new int[]{285, 0};
+		gbl_pnTras.rowHeights = new int[]{78, 159, 160, 0};
+		gbl_pnTras.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gbl_pnTras.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		pnTras.setLayout(gbl_pnTras);
 
-		JPanel panel_2 = new JPanel();
-		panel_2.setMaximumSize(new Dimension(15000, 32767));
-		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
-		gbc_panel_2.fill = GridBagConstraints.HORIZONTAL;
-		gbc_panel_2.anchor = GridBagConstraints.NORTH;
-		gbc_panel_2.insets = new Insets(0, 0, 5, 0);
-		gbc_panel_2.gridx = 0;
-		gbc_panel_2.gridy = 0;
-		panel_1.add(panel_2, gbc_panel_2);
-		GridBagLayout gbl_panel_2 = new GridBagLayout();
-		gbl_panel_2.columnWidths = new int[]{139, 92, 0, 0, 0, 92, 0, 92, 0};
-		gbl_panel_2.rowHeights = new int[] {0, 26, 0, 0};
-		gbl_panel_2.columnWeights = new double[]{1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel_2.rowWeights = new double[]{1.0, 0.0, 1.0, Double.MIN_VALUE};
-		panel_2.setLayout(gbl_panel_2);
+		JPanel pnDown = new JPanel();
+		pnDown.setMaximumSize(new Dimension(15000, 32767));
+		GridBagConstraints gbc_pnDown = new GridBagConstraints();
+		gbc_pnDown.fill = GridBagConstraints.HORIZONTAL;
+		gbc_pnDown.anchor = GridBagConstraints.NORTH;
+		gbc_pnDown.insets = new Insets(0, 0, 5, 0);
+		gbc_pnDown.gridx = 0;
+		gbc_pnDown.gridy = 0;
+		pnTras.add(pnDown, gbc_pnDown);
+		GridBagLayout gbl_pnDown = new GridBagLayout();
+		gbl_pnDown.columnWidths = new int[]{139, 92, 0, 0, 0, 92, 0, 92, 0};
+		gbl_pnDown.rowHeights = new int[] {0, 26, 0, 0};
+		gbl_pnDown.columnWeights = new double[]{1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_pnDown.rowWeights = new double[]{1.0, 0.0, 1.0, Double.MIN_VALUE};
+		pnDown.setLayout(gbl_pnDown);
 
 		txTitle = new JTextField();
 		txTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -137,42 +137,42 @@ public class DBReportBuilder {
 		gbc_txTitle.insets = new Insets(0, 0, 5, 0);
 		gbc_txTitle.gridx = 0;
 		gbc_txTitle.gridy = 0;
-		panel_2.add(txTitle, gbc_txTitle);
+		pnDown.add(txTitle, gbc_txTitle);
 		txTitle.setColumns(10);
-		JScrollPane scrollPane_1 = new JScrollPane();
-		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
-		gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane_1.insets = new Insets(0, 0, 5, 0);
-		gbc_scrollPane_1.gridx = 0;
-		gbc_scrollPane_1.gridy = 1;
-		panel_1.add(scrollPane_1, gbc_scrollPane_1);
+		JScrollPane spQuery = new JScrollPane();
+		GridBagConstraints gbc_spQuery = new GridBagConstraints();
+		gbc_spQuery.fill = GridBagConstraints.BOTH;
+		gbc_spQuery.insets = new Insets(0, 0, 5, 0);
+		gbc_spQuery.gridx = 0;
+		gbc_spQuery.gridy = 1;
+		pnTras.add(spQuery, gbc_spQuery);
 
 		epQuery = new JEditorPane();
 		epQuery.setBorder(new TitledBorder(null, "Query", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		scrollPane_1.setViewportView(epQuery);
+		spQuery.setViewportView(epQuery);
 
-		JPanel panel_3 = new JPanel();
-		GridBagConstraints gbc_panel_3 = new GridBagConstraints();
-		gbc_panel_3.anchor = GridBagConstraints.NORTH;
-		gbc_panel_3.gridwidth = 8;
-		gbc_panel_3.insets = new Insets(0, 0, 5, 0);
-		gbc_panel_3.fill = GridBagConstraints.HORIZONTAL;
-		gbc_panel_3.gridx = 0;
-		gbc_panel_3.gridy = 1;
-		panel_2.add(panel_3, gbc_panel_3);
-		GridBagLayout gbl_panel_3 = new GridBagLayout();
-		gbl_panel_3.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_panel_3.rowHeights = new int[]{0, 0, 0};
-		gbl_panel_3.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel_3.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		panel_3.setLayout(gbl_panel_3);
+		JPanel pnCtlBtn = new JPanel();
+		GridBagConstraints gbc_pnCtlBtn = new GridBagConstraints();
+		gbc_pnCtlBtn.anchor = GridBagConstraints.NORTH;
+		gbc_pnCtlBtn.gridwidth = 8;
+		gbc_pnCtlBtn.insets = new Insets(0, 0, 5, 0);
+		gbc_pnCtlBtn.fill = GridBagConstraints.HORIZONTAL;
+		gbc_pnCtlBtn.gridx = 0;
+		gbc_pnCtlBtn.gridy = 1;
+		pnDown.add(pnCtlBtn, gbc_pnCtlBtn);
+		GridBagLayout gbl_pnCtlBtn = new GridBagLayout();
+		gbl_pnCtlBtn.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_pnCtlBtn.rowHeights = new int[]{0, 0, 0};
+		gbl_pnCtlBtn.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_pnCtlBtn.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		pnCtlBtn.setLayout(gbl_pnCtlBtn);
 
 		chckbxEveryday = new JCheckBox("Everyday");
 		GridBagConstraints gbc_chckbxEveryday = new GridBagConstraints();
 		gbc_chckbxEveryday.insets = new Insets(0, 0, 5, 5);
 		gbc_chckbxEveryday.gridx = 0;
 		gbc_chckbxEveryday.gridy = 0;
-		panel_3.add(chckbxEveryday, gbc_chckbxEveryday);
+		pnCtlBtn.add(chckbxEveryday, gbc_chckbxEveryday);
 
 
 		chckbxMonday = new JCheckBox("Monday");
@@ -180,14 +180,14 @@ public class DBReportBuilder {
 		gbc_chckbxMonday.insets = new Insets(0, 0, 5, 5);
 		gbc_chckbxMonday.gridx = 1;
 		gbc_chckbxMonday.gridy = 0;
-		panel_3.add(chckbxMonday, gbc_chckbxMonday);
+		pnCtlBtn.add(chckbxMonday, gbc_chckbxMonday);
 
 		chckbxTuesday = new JCheckBox("Tuesday");
 		GridBagConstraints gbc_chckbxTuesday = new GridBagConstraints();
 		gbc_chckbxTuesday.insets = new Insets(0, 0, 5, 5);
 		gbc_chckbxTuesday.gridx = 2;
 		gbc_chckbxTuesday.gridy = 0;
-		panel_3.add(chckbxTuesday, gbc_chckbxTuesday);
+		pnCtlBtn.add(chckbxTuesday, gbc_chckbxTuesday);
 
 		chckbxWednesday = new JCheckBox("Wednesday");
 		GridBagConstraints gbc_chckbxWednesday = new GridBagConstraints();
@@ -195,21 +195,21 @@ public class DBReportBuilder {
 		gbc_chckbxWednesday.insets = new Insets(0, 0, 5, 5);
 		gbc_chckbxWednesday.gridx = 3;
 		gbc_chckbxWednesday.gridy = 0;
-		panel_3.add(chckbxWednesday, gbc_chckbxWednesday);
+		pnCtlBtn.add(chckbxWednesday, gbc_chckbxWednesday);
 
-		JPanel panel_4 = new JPanel();
-		GridBagConstraints gbc_panel_4 = new GridBagConstraints();
-		gbc_panel_4.gridheight = 2;
-		gbc_panel_4.gridwidth = 4;
-		gbc_panel_4.gridx = 4;
-		gbc_panel_4.gridy = 0;
-		panel_3.add(panel_4, gbc_panel_4);
-		GridBagLayout gbl_panel_4 = new GridBagLayout();
-		gbl_panel_4.columnWidths = new int[]{0, 91, 0};
-		gbl_panel_4.rowHeights = new int[]{23, 23, 0};
-		gbl_panel_4.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel_4.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		panel_4.setLayout(gbl_panel_4);
+		JPanel pnBtn = new JPanel();
+		GridBagConstraints gbc_pnBtn = new GridBagConstraints();
+		gbc_pnBtn.gridheight = 2;
+		gbc_pnBtn.gridwidth = 4;
+		gbc_pnBtn.gridx = 4;
+		gbc_pnBtn.gridy = 0;
+		pnCtlBtn.add(pnBtn, gbc_pnBtn);
+		GridBagLayout gbl_pnBtn = new GridBagLayout();
+		gbl_pnBtn.columnWidths = new int[]{0, 91, 0};
+		gbl_pnBtn.rowHeights = new int[]{23, 23, 0};
+		gbl_pnBtn.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		gbl_pnBtn.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		pnBtn.setLayout(gbl_pnBtn);
 
 		JButton btnCleanUp = new JButton("Clean up");
 		btnCleanUp.addActionListener(new ActionListener() {
@@ -223,10 +223,9 @@ public class DBReportBuilder {
 		gbc_btnRunQuery.anchor = GridBagConstraints.NORTHWEST;
 		gbc_btnRunQuery.gridx = 0;
 		gbc_btnRunQuery.gridy = 0;
-		panel_4.add(btnRunQuery, gbc_btnRunQuery);
+		pnBtn.add(btnRunQuery, gbc_btnRunQuery);
 		btnRunQuery.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//validate db info
 				try {
 					Class.forName("oracle.jdbc.driver.OracleDriver");
 				} catch (ClassNotFoundException e) {
@@ -240,7 +239,6 @@ public class DBReportBuilder {
 					JOptionPane.showMessageDialog(null, e.getMessage(), "DbName", JOptionPane.ERROR_MESSAGE);
 					e.printStackTrace();
 				}
-				//+txDbname.getText()+"/"+instance.getDbName(),instance.getUserName(),decrypt(instance.getPassw()));
 				try {
 					Statement stmt = connection.createStatement();
 					System.out.println(epQuery.getText());
@@ -258,14 +256,14 @@ public class DBReportBuilder {
 		gbc_btnCleanUp.insets = new Insets(0, 0, 5, 0);
 		gbc_btnCleanUp.gridx = 1;
 		gbc_btnCleanUp.gridy = 0;
-		panel_4.add(btnCleanUp, gbc_btnCleanUp);
+		pnBtn.add(btnCleanUp, gbc_btnCleanUp);
 		JButton btnSaveQuery = new JButton("Save Query");
 		GridBagConstraints gbc_btnSaveQuery = new GridBagConstraints();
 		gbc_btnSaveQuery.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnSaveQuery.anchor = GridBagConstraints.NORTH;
 		gbc_btnSaveQuery.gridx = 1;
 		gbc_btnSaveQuery.gridy = 1;
-		panel_4.add(btnSaveQuery, gbc_btnSaveQuery);
+		pnBtn.add(btnSaveQuery, gbc_btnSaveQuery);
 		btnSaveQuery.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Report report = new Report();
@@ -299,6 +297,13 @@ public class DBReportBuilder {
 					chckbxThursday.setEnabled(false);
 					chckbxTuesday.setEnabled(false);
 					chckbxWednesday.setEnabled(false);
+					chckbxMonday.setSelected(false);
+					chckbxFriday.setSelected(false);
+					chckbxSaturday.setSelected(false);
+					chckbxSunday.setSelected(false);
+					chckbxThursday.setSelected(false);
+					chckbxTuesday.setSelected(false);
+					chckbxWednesday.setSelected(false);
 				}else{
 					chckbxMonday.setEnabled(true);
 					chckbxFriday.setEnabled(true);
@@ -317,14 +322,14 @@ public class DBReportBuilder {
 		gbc_chckbxThursday.insets = new Insets(0, 0, 0, 5);
 		gbc_chckbxThursday.gridx = 0;
 		gbc_chckbxThursday.gridy = 1;
-		panel_3.add(chckbxThursday, gbc_chckbxThursday);
+		pnCtlBtn.add(chckbxThursday, gbc_chckbxThursday);
 		chckbxFriday = new JCheckBox("Friday");
 		GridBagConstraints gbc_chckbxFriday = new GridBagConstraints();
 		gbc_chckbxFriday.anchor = GridBagConstraints.NORTH;
 		gbc_chckbxFriday.insets = new Insets(0, 0, 0, 5);
 		gbc_chckbxFriday.gridx = 1;
 		gbc_chckbxFriday.gridy = 1;
-		panel_3.add(chckbxFriday, gbc_chckbxFriday);
+		pnCtlBtn.add(chckbxFriday, gbc_chckbxFriday);
 
 		chckbxSaturday = new JCheckBox("Saturday");
 		GridBagConstraints gbc_chckbxSaturday = new GridBagConstraints();
@@ -332,7 +337,7 @@ public class DBReportBuilder {
 		gbc_chckbxSaturday.insets = new Insets(0, 0, 0, 5);
 		gbc_chckbxSaturday.gridx = 2;
 		gbc_chckbxSaturday.gridy = 1;
-		panel_3.add(chckbxSaturday, gbc_chckbxSaturday);
+		pnCtlBtn.add(chckbxSaturday, gbc_chckbxSaturday);
 
 		chckbxSunday = new JCheckBox("Sunday");
 		GridBagConstraints gbc_chckbxSunday = new GridBagConstraints();
@@ -340,7 +345,7 @@ public class DBReportBuilder {
 		gbc_chckbxSunday.anchor = GridBagConstraints.NORTHWEST;
 		gbc_chckbxSunday.gridx = 3;
 		gbc_chckbxSunday.gridy = 1;
-		panel_3.add(chckbxSunday, gbc_chckbxSunday);
+		pnCtlBtn.add(chckbxSunday, gbc_chckbxSunday);
 
 		txColumns = new JTextField();
 		txColumns.setBorder(new TitledBorder(null, "Columns", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -350,20 +355,16 @@ public class DBReportBuilder {
 		gbc_txColumns.anchor = GridBagConstraints.NORTHWEST;
 		gbc_txColumns.gridx = 0;
 		gbc_txColumns.gridy = 2;
-		panel_2.add(txColumns, gbc_txColumns);
+		pnDown.add(txColumns, gbc_txColumns);
 		txColumns.setColumns(10);
 
-
-
 		tbResults = new JTable();
-		//	panel_1.add(tbResults);
-
-		JScrollPane scrollPane = new JScrollPane(tbResults);
-		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-		gbc_scrollPane.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane.gridx = 0;
-		gbc_scrollPane.gridy = 2;
-		panel_1.add(scrollPane, gbc_scrollPane);
+		JScrollPane spResults = new JScrollPane(tbResults);
+		GridBagConstraints gbc_spResults = new GridBagConstraints();
+		gbc_spResults.fill = GridBagConstraints.BOTH;
+		gbc_spResults.gridx = 0;
+		gbc_spResults.gridy = 2;
+		pnTras.add(spResults, gbc_spResults);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 	}
@@ -466,9 +467,9 @@ public class DBReportBuilder {
 				options,
 				options[1]);
 		report.setDayOfWeek(getDayOfWeek());
-		report.setTitle(txTitle.getText());
+		if(txTitle.getText().equals("")) report.setTitle("N0N3"); 
+		else report.setTitle(txTitle.getText());;
 		report.setRawColname(txColumns.getText());
-		//report.setQuery(report.formatQuery(epQuery.getText()));
 		report.setQuery(epQuery.getText());
 		if (n==0){
 			instance.add(report);
@@ -476,22 +477,26 @@ public class DBReportBuilder {
 		} else if(n==1){
 			instance.add(report);
 			try {
+				String passTpm=instance.getPassw();
 				instance.setPassw(instance.getEncryPass());
 				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setAcceptAllFileFilterUsed(false);
 				fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("File XML (.xml)", "xml"));
-				fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("File XML (.XML)", "XML")); 
 				File file;
 				if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
 					file = fileChooser.getSelectedFile();
+					String filePath=file.getAbsolutePath();
+					if(!filePath.toUpperCase().endsWith(".XML")) file=new File(filePath+".xml");
 					JAXBContext jaxbContext = JAXBContext.newInstance(Instance.class);
 					Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-					// output pretty printed
 					jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 					jaxbMarshaller.marshal(instance, file);
 					jaxbMarshaller.marshal(instance, System.out);
-					// save to file
+					JOptionPane.showMessageDialog(null, "File Saved:/n"+file.getAbsolutePath(), "DbName", JOptionPane.INFORMATION_MESSAGE);
 				}
+				instance.setPassw(passTpm);
 			} catch (JAXBException e) {
+				JOptionPane.showMessageDialog(null, e.getMessage(), "DbName", JOptionPane.ERROR_MESSAGE);
 				e.printStackTrace();
 			}
 		}
