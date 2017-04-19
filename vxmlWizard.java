@@ -306,13 +306,13 @@ public class vxmlWizard {
 				if (valPoints==3){
 					 //jump to report screen String dbName, String fantasyName, String hostName, String port, String userName, String passw,String mailto, String hostmail
 					Instance inst=new Instance(txDbname.getText(),txEmailTitle.getText(),txHostname.getText(),txPort.getText(),txDbUser.getText(),txPasswd.getText(),txMailTo.getText(),txMailHost.getText());
-					new DBReportBuilder(inst);
+					new DBReportBuilder(inst,true);
 					frmDbreportXml.setVisible(false);
 				}else{
 					int dialogResult = JOptionPane.showConfirmDialog (null, "Invalid Arguments, If you proceed you will not be able to test your reports.\nDo you want to proceed?",null, JOptionPane.YES_NO_OPTION);
 					if(dialogResult == JOptionPane.YES_OPTION){
 						Instance inst=new Instance(txDbname.getText(),txEmailTitle.getText(),txHostname.getText(),txPort.getText(),txDbUser.getText(),txPasswd.getText(),txMailTo.getText(),txMailHost.getText());
-						new DBReportBuilder(inst);
+						new DBReportBuilder(inst,false);
 						frmDbreportXml.setVisible(false);
 						return;
 					}else{
@@ -331,7 +331,7 @@ public class vxmlWizard {
 					    + "After that, press Create Reports button in order to create your own reports!\n"
 					    + "Remember that if you are not in the same network as your database or your SMTP server\n"
 					    + "the validation will fail, but you can ignore it by pressing Yes on the dialog box that\n"
-					    + "will open after you click on Create Report button whitout validate.");
+					    + "will open after you click on Create Report button with basic validation.");
 			}
 		});
 		GridBagConstraints gbc_btnHelp = new GridBagConstraints();

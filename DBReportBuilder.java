@@ -54,12 +54,14 @@ public class DBReportBuilder {
 	private JCheckBox chckbxFriday;
 	private JCheckBox chckbxSaturday;
 	private JCheckBox chckbxSunday;
+	private boolean validated=true;
 
 	/**
 	 * Create the application.
 	 */
-	public DBReportBuilder(Instance inst) {
+	public DBReportBuilder(Instance inst,boolean val) {
 		this.instance=inst;
+		this.validated=val;
 		initialize();
 	}
 
@@ -257,65 +259,36 @@ public class DBReportBuilder {
 		gbc_btnCleanUp.gridx = 1;
 		gbc_btnCleanUp.gridy = 0;
 		panel_4.add(btnCleanUp, gbc_btnCleanUp);
-				JButton btnSaveQuery = new JButton("Save Query");
-				GridBagConstraints gbc_btnSaveQuery = new GridBagConstraints();
-				gbc_btnSaveQuery.fill = GridBagConstraints.HORIZONTAL;
-				gbc_btnSaveQuery.anchor = GridBagConstraints.NORTH;
-				gbc_btnSaveQuery.gridx = 1;
-				gbc_btnSaveQuery.gridy = 1;
-				panel_4.add(btnSaveQuery, gbc_btnSaveQuery);
-				btnSaveQuery.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-						Report report = new Report();
-						StringTokenizer strtk =new StringTokenizer(txColumns.getText(), ",");
-						if(strtk.countTokens()==tbResults.getColumnCount()){
-						//Custom button text
-						Object[] options = {"Create another report",
-						"Save this report and exit"};
-						int n = JOptionPane.showOptionDialog(frame,
-								"What Would you like to do?",
-								"A Silly Question",
-								JOptionPane.YES_NO_CANCEL_OPTION,
-								JOptionPane.QUESTION_MESSAGE,
-								null,
-								options,
-								options[1]);
-						report.setDayOfWeek(getDayOfWeek());
-						report.setTitle(txTitle.getText());
-						report.setRawColname(txColumns.getText());
-						//report.setQuery(report.formatQuery(epQuery.getText()));
-						report.setQuery(epQuery.getText());
-						if (n==0){
-							instance.add(report);
-							clearTx();
-						} else if(n==1){
-							instance.add(report);
-							try {
-								instance.setPassw(instance.getEncryPass());
-								JFileChooser fileChooser = new JFileChooser();
-								fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("File XML (.xml)", "xml"));
-								fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("File XML (.XML)", "XML")); 
-								File file;
-								if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-								  file = fileChooser.getSelectedFile();
-									JAXBContext jaxbContext = JAXBContext.newInstance(Instance.class);
-									Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-									// output pretty printed
-									jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-									jaxbMarshaller.marshal(instance, file);
-									jaxbMarshaller.marshal(instance, System.out);
-								  // save to file
-								}
-							} catch (JAXBException e) {
-								e.printStackTrace();
+		JButton btnSaveQuery = new JButton("Save Query");
+		GridBagConstraints gbc_btnSaveQuery = new GridBagConstraints();
+		gbc_btnSaveQuery.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnSaveQuery.anchor = GridBagConstraints.NORTH;
+		gbc_btnSaveQuery.gridx = 1;
+		gbc_btnSaveQuery.gridy = 1;
+		panel_4.add(btnSaveQuery, gbc_btnSaveQuery);
+		btnSaveQuery.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Report report = new Report();
+				StringTokenizer strtk =new StringTokenizer(txColumns.getText(), ",");
+				try{
+					if(!getDayOfWeek().equals("")){
+						if(validated){
+							if(strtk.countTokens()==tbResults.getColumnCount()){
+								genReport(report);
+							}else{
+								JOptionPane.showMessageDialog(null, "Invalid Number of columns", "DbName", JOptionPane.ERROR_MESSAGE);
+								return;
+							}}else{
+								genReport(report);
 							}
-						}
-					}else{
-						JOptionPane.showMessageDialog(null, "Invalid Number of columns", "DbName", JOptionPane.ERROR_MESSAGE);
-						return;
+
 					}
-				}	
-				});
+				}catch(StringIndexOutOfBoundsException e){
+					JOptionPane.showMessageDialog(null, "Choose at least one day for this report!", "DbName", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+			}
+		});
 		chckbxEveryday.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionEvent) {
 				if(chckbxEveryday.isSelected() ){
@@ -479,5 +452,49 @@ public class DBReportBuilder {
 			}
 			return days.substring(0,days.length()-1);
 		}
+	}
+	private void genReport(Report report){
+		//Custom button text
+		Object[] options = {"Create another report",
+		"Save this report and exit"};
+		int n = JOptionPane.showOptionDialog(frame,
+				"What Would you like to do?",
+				"A Silly Question",
+				JOptionPane.YES_NO_CANCEL_OPTION,
+				JOptionPane.QUESTION_MESSAGE,
+				null,
+				options,
+				options[1]);
+		report.setDayOfWeek(getDayOfWeek());
+		report.setTitle(txTitle.getText());
+		report.setRawColname(txColumns.getText());
+		//report.setQuery(report.formatQuery(epQuery.getText()));
+		report.setQuery(epQuery.getText());
+		if (n==0){
+			instance.add(report);
+			clearTx();
+		} else if(n==1){
+			instance.add(report);
+			try {
+				instance.setPassw(instance.getEncryPass());
+				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("File XML (.xml)", "xml"));
+				fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("File XML (.XML)", "XML")); 
+				File file;
+				if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+					file = fileChooser.getSelectedFile();
+					JAXBContext jaxbContext = JAXBContext.newInstance(Instance.class);
+					Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+					// output pretty printed
+					jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+					jaxbMarshaller.marshal(instance, file);
+					jaxbMarshaller.marshal(instance, System.out);
+					// save to file
+				}
+			} catch (JAXBException e) {
+				e.printStackTrace();
+			}
+		}
+
 	}
 }
