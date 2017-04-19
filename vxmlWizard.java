@@ -13,6 +13,7 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Color;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.JButton;
 import javax.swing.JTextPane;
 import java.awt.event.ActionListener;
@@ -43,7 +44,8 @@ public class vxmlWizard {
 	private JButton btnCreateReports;
 	private int valPoints=0;
 	private JPasswordField txPasswd;
-	private JPanel panel;
+	private JPanel pnBkgrd;
+	private JButton btnHelp;
 
 
 	/**
@@ -53,7 +55,9 @@ public class vxmlWizard {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					 UIManager.setLookAndFeel( UIManager.getSystemLookAndFeelClassName()); 
 					vxmlWizard window = new vxmlWizard();
+					window.frmDbreportXml.setResizable(false);
 					window.frmDbreportXml.setLocationRelativeTo(null);  // *** this will center your app ***
 					window.frmDbreportXml.setVisible(true);
 				} catch (Exception e) {
@@ -81,21 +85,20 @@ public class vxmlWizard {
 		frmDbreportXml.getContentPane().setLayout(new BoxLayout(frmDbreportXml.getContentPane(), BoxLayout.X_AXIS));
 
 		
-		panel = new JPanel();
-		frmDbreportXml.getContentPane().add(panel);
-		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{664, 0};
-		gbl_panel.rowHeights = new int[]{179, 303, 0};
-		gbl_panel.columnWeights = new double[]{0.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		panel.setLayout(gbl_panel);
+		pnBkgrd = new JPanel();
+		frmDbreportXml.getContentPane().add(pnBkgrd);
+		GridBagLayout gbl_pnBkgrd = new GridBagLayout();
+		gbl_pnBkgrd.columnWidths = new int[]{664, 0};
+		gbl_pnBkgrd.rowHeights = new int[]{179, 303, 0};
+		gbl_pnBkgrd.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gbl_pnBkgrd.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		pnBkgrd.setLayout(gbl_pnBkgrd);
 		GridBagConstraints gbc_pnGeral = new GridBagConstraints();
-		gbc_pnGeral.anchor = GridBagConstraints.NORTH;
-		gbc_pnGeral.fill = GridBagConstraints.HORIZONTAL;
+		gbc_pnGeral.fill = GridBagConstraints.BOTH;
 		gbc_pnGeral.insets = new Insets(0, 0, 5, 0);
 		gbc_pnGeral.gridx = 0;
 		gbc_pnGeral.gridy = 0;
-		panel.add(pnGeral, gbc_pnGeral);
+		pnBkgrd.add(pnGeral, gbc_pnGeral);
 		pnGeral.setBorder(new TitledBorder(null, "Instance Setup", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagLayout gbl_pnGeral = new GridBagLayout();
 		gbl_pnGeral.columnWidths = new int[]{330, 330, 0};
@@ -188,11 +191,11 @@ public class vxmlWizard {
 		gbc_pnControl.fill = GridBagConstraints.BOTH;
 		gbc_pnControl.gridx = 0;
 		gbc_pnControl.gridy = 1;
-		panel.add(pnControl, gbc_pnControl);
+		pnBkgrd.add(pnControl, gbc_pnControl);
 		GridBagLayout gbl_pnControl = new GridBagLayout();
-		gbl_pnControl.columnWidths = new int[]{120, 120, 0, 0};
-		gbl_pnControl.rowHeights = new int[]{0, 36, 0};
-		gbl_pnControl.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_pnControl.columnWidths = new int[]{120, 120, 120, 0, 0};
+		gbl_pnControl.rowHeights = new int[]{37, 36, 0};
+		gbl_pnControl.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		gbl_pnControl.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		pnControl.setLayout(gbl_pnControl);
 		
@@ -240,6 +243,7 @@ public class vxmlWizard {
 				try {
 					Class.forName("oracle.jdbc.driver.OracleDriver");
 				} catch (ClassNotFoundException e) {
+					txOutput.setText(txOutput.getText()+"/n"+e.getMessage());
 					JOptionPane.showMessageDialog(null, e.getMessage(), "DbName", JOptionPane.ERROR_MESSAGE);
 					e.printStackTrace();
 					valPoints=0;
@@ -251,6 +255,7 @@ public class vxmlWizard {
 				try {
 					connection = DriverManager.getConnection("jdbc:oracle:thin:@"+txHostname.getText()+":"+txPort.getText()+"/"+txDbname.getText(),txDbUser.getText(),txPasswd.getText());
 				} catch (SQLException e) {
+					txOutput.setText(txOutput.getText()+"/n"+e.getMessage());
 					JOptionPane.showMessageDialog(null, e.getMessage(), "DbName", JOptionPane.ERROR_MESSAGE);
 					e.printStackTrace();
 					valPoints=0;
@@ -263,6 +268,7 @@ public class vxmlWizard {
 					txOutput.setText(txOutput.getText()+"\nDatabase connection successfully...");
 					valPoints++;//2
 				} catch (SQLException e) {
+					txOutput.setText(txOutput.getText()+"/n"+e.getMessage());
 					JOptionPane.showMessageDialog(null, e.getMessage(), "DbName", JOptionPane.ERROR_MESSAGE);
 					e.printStackTrace();
 					valPoints=0;
@@ -280,6 +286,7 @@ public class vxmlWizard {
 					}
 				} catch (IOException e) {
 					txOutput.setText(txOutput.getText()+"\nMail Server unreachable...");
+					txOutput.setText(txOutput.getText()+"/n"+e.getMessage());
 					valPoints=0;
 					e.printStackTrace();
 				}
@@ -302,18 +309,42 @@ public class vxmlWizard {
 					new DBReportBuilder(inst);
 					frmDbreportXml.setVisible(false);
 				}else{
+					int dialogResult = JOptionPane.showConfirmDialog (null, "Invalid Arguments, If you proceed you will not be able to test your reports.\nDo you want to proceed?",null, JOptionPane.YES_NO_OPTION);
+					if(dialogResult == JOptionPane.YES_OPTION){
+						Instance inst=new Instance(txDbname.getText(),txEmailTitle.getText(),txHostname.getText(),txPort.getText(),txDbUser.getText(),txPasswd.getText(),txMailTo.getText(),txMailHost.getText());
+						new DBReportBuilder(inst);
+						frmDbreportXml.setVisible(false);
+						return;
+					}else{
 					valPoints=0;
-					JOptionPane.showMessageDialog(null, "Invalid arguments, please check... ", "DbName", JOptionPane.ERROR_MESSAGE);
 			        return;
+					}
 				}
 			}
 		});
 		
+		btnHelp = new JButton("Help!");
+		btnHelp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JOptionPane.showMessageDialog(null,
+					    "Please fill all fields and press Validate button.\n Check on the Output if everything goes fine.\n"
+					    + "After that, press Create Reports button in order to create your own reports!\n"
+					    + "Remember that if you are not in the same network as your database or your SMTP server\n"
+					    + "the validation will fail, but you can ignore it by pressing Yes on the dialog box that\n"
+					    + "will open after you click on Create Report button whitout validate.");
+			}
+		});
+		GridBagConstraints gbc_btnHelp = new GridBagConstraints();
+		gbc_btnHelp.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnHelp.insets = new Insets(0, 0, 5, 5);
+		gbc_btnHelp.gridx = 2;
+		gbc_btnHelp.gridy = 0;
+		pnControl.add(btnHelp, gbc_btnHelp);
 		txOutput = new JTextPane();
 		txOutput.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Validation Output", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		txOutput.setEditable(false);
 		GridBagConstraints gbc_txOutput = new GridBagConstraints();
-		gbc_txOutput.gridwidth = 3;
+		gbc_txOutput.gridwidth = 4;
 		gbc_txOutput.fill = GridBagConstraints.BOTH;
 		gbc_txOutput.gridx = 0;
 		gbc_txOutput.gridy = 1;

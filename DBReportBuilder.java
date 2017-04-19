@@ -43,7 +43,6 @@ public class DBReportBuilder {
 	private JFrame frame;
 	private Instance instance;
 	private JTable tbResults;
-	//private final DefaultTableModel tableModel = new DefaultTableModel();
 	private JTextField txTitle;
 	private JTextField txColumns;
 	private JEditorPane epQuery;
@@ -69,9 +68,9 @@ public class DBReportBuilder {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 614, 538);
+		frame.setBounds(100, 100, 614, 520);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		frame.setResizable(false);
 		JPanel panel = new JPanel();
 		frame.getContentPane().add(panel, BorderLayout.NORTH);
 		GridBagLayout gbl_panel = new GridBagLayout();
@@ -233,8 +232,6 @@ public class DBReportBuilder {
 					e.printStackTrace();
 				}
 				Connection connection = null;
-				//connection = DriverManager.getConnection("jdbc:oracle:thin:@"+instance.getHostName()+":"+instance.getPort()+"/"+instance.getDbName(),instance.getUserName(),decrypt(instance.getPassw()));
-
 				try {
 					connection = DriverManager.getConnection("jdbc:oracle:thin:@"+instance.getHostName()+":"+instance.getPort()+"/"+instance.getDbName(),instance.getUserName(),instance.getPassw());
 				} catch (SQLException e) {
@@ -260,7 +257,6 @@ public class DBReportBuilder {
 		gbc_btnCleanUp.gridx = 1;
 		gbc_btnCleanUp.gridy = 0;
 		panel_4.add(btnCleanUp, gbc_btnCleanUp);
-		
 				JButton btnSaveQuery = new JButton("Save Query");
 				GridBagConstraints gbc_btnSaveQuery = new GridBagConstraints();
 				gbc_btnSaveQuery.fill = GridBagConstraints.HORIZONTAL;
@@ -302,19 +298,14 @@ public class DBReportBuilder {
 								File file;
 								if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
 								  file = fileChooser.getSelectedFile();
-								//  file = new File("U:\\file.xml");
 									JAXBContext jaxbContext = JAXBContext.newInstance(Instance.class);
 									Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-
 									// output pretty printed
 									jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-
 									jaxbMarshaller.marshal(instance, file);
 									jaxbMarshaller.marshal(instance, System.out);
 								  // save to file
 								}
-								
-
 							} catch (JAXBException e) {
 								e.printStackTrace();
 							}
