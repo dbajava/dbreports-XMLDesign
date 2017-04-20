@@ -392,11 +392,9 @@ public class DBReportBuilder {
 			for (int i = 0; i < columnCount; i++){
 				row[i] = rs.getObject(i+1);
 			}
-			//Now add row to table model with that array of objects as an argument
 			tableModel.addRow(row);
 		}
 
-		//Now add that table model to your table and you are done :D
 		table.setModel(tableModel);
 	}
 	public void clearTx(){

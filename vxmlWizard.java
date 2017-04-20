@@ -48,9 +48,6 @@ public class vxmlWizard {
 	private JButton btnHelp;
 
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -58,7 +55,7 @@ public class vxmlWizard {
 					 UIManager.setLookAndFeel( UIManager.getSystemLookAndFeelClassName()); 
 					vxmlWizard window = new vxmlWizard();
 					window.frmDbreportXml.setResizable(false);
-					window.frmDbreportXml.setLocationRelativeTo(null);  // *** this will center your app ***
+					window.frmDbreportXml.setLocationRelativeTo(null);  
 					window.frmDbreportXml.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -243,7 +240,7 @@ public class vxmlWizard {
 				try {
 					Class.forName("oracle.jdbc.driver.OracleDriver");
 				} catch (ClassNotFoundException e) {
-					txOutput.setText(txOutput.getText()+"/n"+e.getMessage());
+					txOutput.setText(txOutput.getText()+"\n"+e.getMessage());
 					JOptionPane.showMessageDialog(null, e.getMessage(), "DbName", JOptionPane.ERROR_MESSAGE);
 					e.printStackTrace();
 					valPoints=0;
@@ -255,7 +252,7 @@ public class vxmlWizard {
 				try {
 					connection = DriverManager.getConnection("jdbc:oracle:thin:@"+txHostname.getText()+":"+txPort.getText()+"/"+txDbname.getText(),txDbUser.getText(),txPasswd.getText());
 				} catch (SQLException e) {
-					txOutput.setText(txOutput.getText()+"/n"+e.getMessage());
+					txOutput.setText(txOutput.getText()+"\n"+e.getMessage());
 					JOptionPane.showMessageDialog(null, e.getMessage(), "DbName", JOptionPane.ERROR_MESSAGE);
 					e.printStackTrace();
 					valPoints=0;
@@ -268,7 +265,7 @@ public class vxmlWizard {
 					txOutput.setText(txOutput.getText()+"\nDatabase connection successfully...");
 					valPoints++;//2
 				} catch (SQLException e) {
-					txOutput.setText(txOutput.getText()+"/n"+e.getMessage());
+					txOutput.setText(txOutput.getText()+"\n"+e.getMessage());
 					JOptionPane.showMessageDialog(null, e.getMessage(), "DbName", JOptionPane.ERROR_MESSAGE);
 					e.printStackTrace();
 					valPoints=0;
@@ -286,7 +283,7 @@ public class vxmlWizard {
 					}
 				} catch (IOException e) {
 					txOutput.setText(txOutput.getText()+"\nMail Server unreachable...");
-					txOutput.setText(txOutput.getText()+"/n"+e.getMessage());
+					txOutput.setText(txOutput.getText()+"\n"+e.getMessage());
 					valPoints=0;
 					e.printStackTrace();
 				}
