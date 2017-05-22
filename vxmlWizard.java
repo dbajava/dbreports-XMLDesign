@@ -15,8 +15,10 @@ import java.awt.Color;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JTextPane;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.sql.Connection;
@@ -24,6 +26,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.border.TitledBorder;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Unmarshaller;
 import javax.swing.border.EtchedBorder;
 import javax.swing.JPasswordField;
 
@@ -46,14 +50,16 @@ public class vxmlWizard {
 	private JPasswordField txPasswd;
 	private JPanel pnBkgrd;
 	private JButton btnHelp;
-
+	private JButton btnEditReportFile;
+	private Instance instance;
+	private static vxmlWizard window=null;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					 UIManager.setLookAndFeel( UIManager.getSystemLookAndFeelClassName()); 
-					vxmlWizard window = new vxmlWizard();
+					window = new vxmlWizard();
 					window.frmDbreportXml.setResizable(false);
 					window.frmDbreportXml.setLocationRelativeTo(null);  
 					window.frmDbreportXml.setVisible(true);
@@ -190,9 +196,9 @@ public class vxmlWizard {
 		gbc_pnControl.gridy = 1;
 		pnBkgrd.add(pnControl, gbc_pnControl);
 		GridBagLayout gbl_pnControl = new GridBagLayout();
-		gbl_pnControl.columnWidths = new int[]{120, 120, 120, 0, 0};
+		gbl_pnControl.columnWidths = new int[]{120, 120, 0, 120, 0, 0};
 		gbl_pnControl.rowHeights = new int[]{37, 36, 0};
-		gbl_pnControl.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_pnControl.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		gbl_pnControl.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		pnControl.setLayout(gbl_pnControl);
 		
@@ -250,7 +256,7 @@ public class vxmlWizard {
 				//connection = DriverManager.getConnection("jdbc:oracle:thin:@"+instance.getHostName()+":"+instance.getPort()+"/"+instance.getDbName(),instance.getUserName(),decrypt(instance.getPassw()));
 
 				try {
-					connection = DriverManager.getConnection("jdbc:oracle:thin:@"+txHostname.getText()+":"+txPort.getText()+"/"+txDbname.getText(),txDbUser.getText(),txPasswd.getText());
+						connection = DriverManager.getConnection("jdbc:oracle:thin:@"+txHostname.getText()+":"+txPort.getText()+"/"+txDbname.getText(),txDbUser.getText(),txPasswd.getText());
 				} catch (SQLException e) {
 					txOutput.setText(txOutput.getText()+"\n"+e.getMessage());
 					JOptionPane.showMessageDialog(null, e.getMessage(), "DbName", JOptionPane.ERROR_MESSAGE);
@@ -324,24 +330,69 @@ public class vxmlWizard {
 		btnHelp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JOptionPane.showMessageDialog(null,
-					    "Please fill all fields and press Validate button.\n Check on the Output if everything goes fine.\n"
+					    "Please fill all fields and press Validate button.\nCheck on the Output if everything goes fine.\n"
 					    + "After that, press Create Reports button in order to create your own reports!\n"
 					    + "Remember that if you are not in the same network as your database or your SMTP server\n"
 					    + "the validation will fail, but you can ignore it by pressing Yes on the dialog box that\n"
 					    + "will open after you click on Create Report button with basic validation.");
 			}
 		});
+		
+		btnEditReportFile = new JButton("Edit Report File");
+		btnEditReportFile.setEnabled(false);
+		btnEditReportFile.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				 JFileChooser choice = new JFileChooser();
+			        int option = choice.showOpenDialog(null);
+			        if (option == JFileChooser.APPROVE_OPTION) {
+			            try{
+			              //  Scanner scan = new Scanner(new FileReader((open).getSelectedFile().getPath()));
+			                File file=choice.getSelectedFile();
+			                System.out.println(choice.getSelectedFile().getAbsolutePath());
+			            //    if(file.getName().replaceAll("^.*\\.(.*)$", "$1").toLowerCase().equals("xml")){   	
+								//reading xml file
+								//File fXmlFile = new File("xml\\"+file.getAbsoluteFile().getName());
+								//parsing xml file into a class
+								JAXBContext jaxbContext;
+								jaxbContext = JAXBContext.newInstance(Instance.class);
+								Unmarshaller jaxbUnmarshaller;
+								jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+								instance = (Instance)jaxbUnmarshaller.unmarshal( file );
+								window.frmDbreportXml.setVisible(false);
+								System.out.println(instance.getDbName()+"instance");
+								txDbname.setText(instance.getDbName());
+								txDbUser.setText(instance.getUserName());
+								txEmailTitle.setText(instance.getHostName());
+								txHostname.setText(instance.getHostName());
+								txMailHost.setText(instance.getHostmail());
+								txMailTo.setText(instance.getMailto());
+								//txPasswd.setText(instance.getPassw());
+								System.out.println(instance.getPassw()+" emc "+instance.getEncryPass());
+								txPort.setText(instance.getPort());
+								window.frmDbreportXml.setVisible(true);
+			          //      }
+			            }catch(Exception e){
+			            	
+			            }
+			        }
+			}
+		});
+		GridBagConstraints gbc_btnEditReportFile = new GridBagConstraints();
+		gbc_btnEditReportFile.insets = new Insets(0, 0, 5, 5);
+		gbc_btnEditReportFile.gridx = 2;
+		gbc_btnEditReportFile.gridy = 0;
+		pnControl.add(btnEditReportFile, gbc_btnEditReportFile);
 		GridBagConstraints gbc_btnHelp = new GridBagConstraints();
 		gbc_btnHelp.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnHelp.insets = new Insets(0, 0, 5, 5);
-		gbc_btnHelp.gridx = 2;
+		gbc_btnHelp.gridx = 3;
 		gbc_btnHelp.gridy = 0;
 		pnControl.add(btnHelp, gbc_btnHelp);
 		txOutput = new JTextPane();
 		txOutput.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Validation Output", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		txOutput.setEditable(false);
 		GridBagConstraints gbc_txOutput = new GridBagConstraints();
-		gbc_txOutput.gridwidth = 4;
+		gbc_txOutput.gridwidth = 5;
 		gbc_txOutput.fill = GridBagConstraints.BOTH;
 		gbc_txOutput.gridx = 0;
 		gbc_txOutput.gridy = 1;
