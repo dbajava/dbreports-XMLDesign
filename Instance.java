@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package XMLWizard;
 
 import javax.crypto.Cipher;
@@ -21,10 +16,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
-/**
- *
- * @author c954080
- */
+
 @XmlType( propOrder = { "dbName", "fantasyName","hostName", "port", "userName","passw","mailto","hostmail","reports" } )
 @XmlRootElement( name = "instance" )
 public class Instance {
@@ -138,12 +130,10 @@ public String getEncryPass(){
 	return "impossible to encrypt";
 }
 private static String base64Encode(byte[] bytes) {
-	// NB: This class is internal, and you probably should use another impl
 	return new BASE64Encoder().encode(bytes);
 }
 @SuppressWarnings("unused")
 private static byte[] base64Decode(String property) throws IOException {
-	// NB: This class is internal, and you probably should use another impl
 	return new BASE64Decoder().decodeBuffer(property);
 }
 public Instance(String dbName, String fantasyName, String hostName, String port, String userName, String passw,

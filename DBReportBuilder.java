@@ -15,8 +15,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-
-
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -63,18 +61,12 @@ public class DBReportBuilder {
 	private JPanel panel;
 	private JButton btnAddQuery;
 	private Report report = new Report();
-	/**
-	 * Create the application.
-	 */
 	public DBReportBuilder(Instance inst,boolean val) {
 		this.instance=inst;
 		this.validated=val;
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 618, 562);
@@ -420,32 +412,19 @@ public class DBReportBuilder {
 		frame.setVisible(true);
 	}
 	public void resultSetToTableModel(ResultSet rs, JTable table) throws SQLException{
-		//Create new table model
 		DefaultTableModel tableModel = new DefaultTableModel();
-
-		//Retrieve meta data from ResultSet
 		ResultSetMetaData metaData = rs.getMetaData();
-
-		//Get number of columns from meta data
 		int columnCount = metaData.getColumnCount();
-
-		//Get all column names from meta data and add columns to table model
 		for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++){
 			tableModel.addColumn(metaData.getColumnLabel(columnIndex));
 		}
-
-		//Create array of Objects with size of column count from meta data
 		Object[] row = new Object[columnCount];
-
-		//Scroll through result set
 		while (rs.next()){
-			//Get object from column with specific index of result set to array of objects
 			for (int i = 0; i < columnCount; i++){
 				row[i] = rs.getObject(i+1);
 			}
 			tableModel.addRow(row);
 		}
-
 		table.setModel(tableModel);
 	}
 	public void clearTx(){
@@ -505,7 +484,6 @@ public class DBReportBuilder {
 		}
 	}
 	private void genReport(Report report){
-		//Custom button text
 		Object[] options = {"Create another report",
 		"Save this report and exit"};
 		int n = JOptionPane.showOptionDialog(frame,
@@ -543,7 +521,7 @@ public class DBReportBuilder {
 					jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 					jaxbMarshaller.marshal(instance, file);
 					jaxbMarshaller.marshal(instance, System.out);
-					JOptionPane.showMessageDialog(null, "File Saved:/n"+file.getAbsolutePath(), "DbName", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "File Saved:\n"+file.getAbsolutePath(), "DbName", JOptionPane.INFORMATION_MESSAGE);
 					System.exit(0);
 				}
 				instance.setPassw(passTpm);

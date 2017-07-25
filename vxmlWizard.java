@@ -70,16 +70,10 @@ public class vxmlWizard {
 		});
 	}
 
-	/**
-	 * Create the application.
-	 */
 	public vxmlWizard() {
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		frmDbreportXml = new JFrame();
 		frmDbreportXml.setTitle("DBReport - XML Wizard");
@@ -211,7 +205,7 @@ public class vxmlWizard {
 		pnControl.add(btContruct, gbc_btContruct);
 		btContruct.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				txOutput.setText("Validating fields...");
+				txOutput.setText(txOutput.getText()+"Validating fields...");
 				if(txDbname.getText().equals("")){
 			        JOptionPane.showMessageDialog(null, "Please insert Database name. ", "DbName", JOptionPane.ERROR_MESSAGE);
 			        return;
@@ -240,9 +234,8 @@ public class vxmlWizard {
 			        JOptionPane.showMessageDialog(null, "Please insert Password. ", "DbName", JOptionPane.ERROR_MESSAGE);
 			        return;
 				}
-				valPoints++;//1
+				valPoints++;
 				txOutput.setText(txOutput.getText()+"\nValidating DB connections...");
-				//validate db info
 				try {
 					Class.forName("oracle.jdbc.driver.OracleDriver");
 				} catch (ClassNotFoundException e) {
@@ -253,7 +246,6 @@ public class vxmlWizard {
 					return;
 				}
 				Connection connection = null;
-				//connection = DriverManager.getConnection("jdbc:oracle:thin:@"+instance.getHostName()+":"+instance.getPort()+"/"+instance.getDbName(),instance.getUserName(),decrypt(instance.getPassw()));
 
 				try {
 						connection = DriverManager.getConnection("jdbc:oracle:thin:@"+txHostname.getText()+":"+txPort.getText()+"/"+txDbname.getText(),txDbUser.getText(),txPasswd.getText());
@@ -263,9 +255,7 @@ public class vxmlWizard {
 					e.printStackTrace();
 					valPoints=0;
 				}
-				//+txDbname.getText()+"/"+instance.getDbName(),instance.getUserName(),decrypt(instance.getPassw()));
 				try {
-					//testing connection
 					connection.createStatement();
 					connection.close();
 					txOutput.setText(txOutput.getText()+"\nDatabase connection successfully...");
@@ -276,7 +266,6 @@ public class vxmlWizard {
 					e.printStackTrace();
 					valPoints=0;
 				}
-				//checking mail server 
 				InetAddress address;
 				try {
 					address = InetAddress.getByName(txMailHost.getText());
@@ -307,7 +296,6 @@ public class vxmlWizard {
 		btnCreateReports.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (valPoints==3){
-					 //jump to report screen String dbName, String fantasyName, String hostName, String port, String userName, String passw,String mailto, String hostmail
 					Instance inst=new Instance(txDbname.getText(),txEmailTitle.getText(),txHostname.getText(),txPort.getText(),txDbUser.getText(),txPasswd.getText(),txMailTo.getText(),txMailHost.getText());
 					new DBReportBuilder(inst,true);
 					frmDbreportXml.setVisible(false);
@@ -346,13 +334,8 @@ public class vxmlWizard {
 			        int option = choice.showOpenDialog(null);
 			        if (option == JFileChooser.APPROVE_OPTION) {
 			            try{
-			              //  Scanner scan = new Scanner(new FileReader((open).getSelectedFile().getPath()));
 			                File file=choice.getSelectedFile();
 			                System.out.println(choice.getSelectedFile().getAbsolutePath());
-			            //    if(file.getName().replaceAll("^.*\\.(.*)$", "$1").toLowerCase().equals("xml")){   	
-								//reading xml file
-								//File fXmlFile = new File("xml\\"+file.getAbsoluteFile().getName());
-								//parsing xml file into a class
 								JAXBContext jaxbContext;
 								jaxbContext = JAXBContext.newInstance(Instance.class);
 								Unmarshaller jaxbUnmarshaller;
@@ -366,11 +349,9 @@ public class vxmlWizard {
 								txHostname.setText(instance.getHostName());
 								txMailHost.setText(instance.getHostmail());
 								txMailTo.setText(instance.getMailto());
-								//txPasswd.setText(instance.getPassw());
 								System.out.println(instance.getPassw()+" emc "+instance.getEncryPass());
 								txPort.setText(instance.getPort());
 								window.frmDbreportXml.setVisible(true);
-			          //      }
 			            }catch(Exception e){
 			            	
 			            }
